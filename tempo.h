@@ -1,4 +1,5 @@
 #include <time.h>
+#include <stdlib.h>
 
 // Ignora essas duas funções, o importante é que o intervalo na main vai fazer o que a gente quer. :)
 

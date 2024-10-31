@@ -5,7 +5,7 @@ typedef struct {
        int posicaoX;
    } inimigo;
 
-inimigo inimigos[28] = {
+inimigo inimigos[27] = {
     {'A', 0, 0},
     {'B', 0, 0},
     {'C', 0, 0},
@@ -32,6 +32,5 @@ inimigo inimigos[28] = {
     {'X', 0, 0},
     {'Y', 0, 0},
     {'Z', 0, 0},
-    {'Ç', 0, 0},
 };
    

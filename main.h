@@ -30,6 +30,8 @@ int JogadorPosicaoX = 5; // Posição inicial X
 void comandos();
 int vivo = 1; // Estado de vida do jogador.
 void exibirMapa(char mapa[y][x]);
+int aleatorezarInimigos(void);
+void atkInimigos(void);
 
 // Comandos //
 void teclaA()

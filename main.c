@@ -52,19 +52,38 @@ void jogo(void)
         {
             comandos();
         }
-        if (tempoDecorrido() > 0.5) // Meio segundo
+        else if (tempoDecorrido() > 1) // Meio segundo
         {
             novoTempo();
-            srand(time(NULL));
-            int numeroAleatorio = geraNumeroAleatorio(1 , 8);
-            int letraAleatoria = geraNumeroAleatorio(0 , 27);
-            inimigos[letraAleatoria].letra;
-            inimigos[letraAleatoria].posicaoY = 1;
-            inimigos[letraAleatoria].posicaoX = numeroAleatorio;
-           
+            aleatorezarInimigos();
+            atkInimigos();
+            exibirMapa(mapa);
         }
     }
     vivo = 1;
+}
+int aleatorezarInimigos(void)
+{
+    srand(time(NULL));
+    int numeroAleatorio = geraNumeroAleatorio(1, 8);
+    int letraAleatoria = geraNumeroAleatorio(0, 26);
+
+    inimigos[letraAleatoria].posicaoY = 1;
+    inimigos[letraAleatoria].posicaoX = numeroAleatorio;
+    return letraAleatoria;
+}
+void atkInimigos(void)
+{
+    for (int i = 0; i < 27; i++)
+    {
+        if (inimigos[i].posicaoY > 0 ){
+            inimigos[i].posicaoY++;
+        }
+        if (inimigos[i].posicaoY > 8 ){
+            inimigos[i].posicaoY = 0;
+        }
+        
+    }
 }
 
 void comandos(void)
@@ -99,6 +118,13 @@ void exibirMapa(char mapa[y][x]) // Renderiza o mapa
     {
         for (int j = 0; j < x; j++)
         {
+            for (int k = 0; k < 27; k++)
+            {
+                if (i == inimigos[k].posicaoY && j == inimigos[k].posicaoX && inimigos[k].posicaoY != 0) 
+                {
+                    printf("%c",inimigos[k].letra);
+                }
+            }
             if (i == JogadorPosicaoY && j == JogadorPosicaoX) // Renderiza o jogador no mapa
             {
                 printf("%c ", personagem);
