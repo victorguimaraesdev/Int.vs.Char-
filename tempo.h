@@ -13,12 +13,12 @@ double tempoDecorrido()
 
     return (miliSegundosAtual - miliSegundosFrame) / 1000.0;
 }
-
 void novoTempo()
 {
     clock_gettime(CLOCK_REALTIME, &novoFrame);
     ultimoFrame = novoFrame;
 }
+
 int geraNumeroAleatorio(int min, int max) {
     return min + rand() % (max - min + 1);
 }

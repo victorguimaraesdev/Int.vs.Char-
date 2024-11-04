@@ -10,9 +10,9 @@
 int main(void)
 {
     setlocale(LC_ALL, "pt_BR.UTF-8");
-
     do
     {
+        fflush(stdin);
         menu();
     } while (sairMenu);
 
@@ -45,44 +45,43 @@ void menu(void)
 
 void jogo(void)
 {
-    exibirMapa(mapa);
-    while (vivo)
+    vivo = 1;
+    fflush(stdin);
+    do
     {
         if (kbhit()) // Verifica se alguma tecla foi pressionada no teclado.
         {
             comandos();
         }
-        else if (tempoDecorrido() > 1) // Meio segundo
+        if (tempoDecorrido() > 1)
         {
             novoTempo();
-            aleatorezarInimigos();
-            atkInimigos();
-            exibirMapa(mapa);
+
+            inimigosSpawn();
         }
-    }
-    vivo = 1;
+    } while (vivo);
 }
-int aleatorezarInimigos(void)
+
+void inimigosSpawn(void)
 {
     srand(time(NULL));
-    int numeroAleatorio = geraNumeroAleatorio(1, 8);
+    int lugarAleatorio = geraNumeroAleatorio(1, 8);
     int letraAleatoria = geraNumeroAleatorio(0, 26);
 
-    inimigos[letraAleatoria].posicaoY = 1;
-    inimigos[letraAleatoria].posicaoX = numeroAleatorio;
-    return letraAleatoria;
-}
-void atkInimigos(void)
-{
-    for (int i = 0; i < 27; i++)
+    inimigos[letraAleatoria].posicaoY = 0;
+    inimigos[letraAleatoria].posicaoX = lugarAleatorio;
+
+    for (int i = 0; i < 26; i++)
     {
-        if (inimigos[i].posicaoY > 0 ){
+        if (inimigos[i].posicaoY > -1)
+        {
             inimigos[i].posicaoY++;
+            exibirMapa(mapa);
         }
-        if (inimigos[i].posicaoY > 8 ){
-            inimigos[i].posicaoY = 0;
+        if (inimigos[i].posicaoY > 8)
+        {
+            inimigos[i].posicaoY = -1;
         }
-        
     }
 }
 
@@ -118,24 +117,52 @@ void exibirMapa(char mapa[y][x]) // Renderiza o mapa
     {
         for (int j = 0; j < x; j++)
         {
-            for (int k = 0; k < 27; k++)
+            int naoRenderizouPlayer = 1;
+            int naoRenderizouInimigo = 1;
+
+            for (int k = 0; k < 26; k++)
             {
-                if (i == inimigos[k].posicaoY && j == inimigos[k].posicaoX && inimigos[k].posicaoY != 0) 
+                if (i == inimigos[k].posicaoY && j == inimigos[k].posicaoX)
                 {
-                    printf("%c",inimigos[k].letra);
+                    if (inimigos[k].posicaoY != 0 && inimigos[k].posicaoX != 0)
+                    {
+                        printf("%c ", inimigos[k].letra);
+                        naoRenderizouInimigo = 0;
+                    }
+                }
+                if (inimigos[k].posicaoY == JogadorPosicaoY && inimigos[k].posicaoX == JogadorPosicaoX)
+                {
+                    menuDeMorte();
                 }
             }
-            if (i == JogadorPosicaoY && j == JogadorPosicaoX) // Renderiza o jogador no mapa
+            if (i == JogadorPosicaoY && j == JogadorPosicaoX && naoRenderizouInimigo)
             {
                 printf("%c ", personagem);
+                naoRenderizouPlayer = 0; // Não
             }
-            else
+            if (naoRenderizouPlayer && naoRenderizouInimigo)
             {
                 printf("%c ", mapa[i][j]);
             }
         }
         printf("\n");
     }
+}
+
+void menuDeMorte(void)
+{
+    system("cls");
+    for (int i = 0; i < 26; i++)
+    {
+        inimigos[i].posicaoX = -1;
+        inimigos[i].posicaoY = -1;
+    }
+    JogadorPosicaoY = 8;
+    JogadorPosicaoX = 5;
+
+    printf("Infelizmente você morreu! :(\n");
+    system("pause");
+    menu();
 }
 
 void selecionarPersonagem()
@@ -147,33 +174,43 @@ void selecionarPersonagem()
     {
     case '0':
         personagem = '0';
+        menu();
         break;
     case '1':
         personagem = '1';
+        menu();
         break;
     case '2':
         personagem = '2';
+        menu();
         break;
     case '3':
         personagem = '3';
+        menu();
         break;
     case '4':
         personagem = '4';
+        menu();
         break;
     case '5':
         personagem = '5';
+        menu();
         break;
     case '6':
         personagem = '6';
+        menu();
         break;
     case '7':
         personagem = '7';
+        menu();
         break;
     case '8':
         personagem = '8';
+        menu();
         break;
     case '9':
         personagem = '9';
+        menu();
         break;
     default:
         system("cls");
@@ -182,6 +219,7 @@ void selecionarPersonagem()
         selecionarPersonagem();
         break;
     }
+    fflush(stdin);
 }
 
 void placar(void)

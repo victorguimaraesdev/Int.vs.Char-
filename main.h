@@ -28,10 +28,10 @@ void sair(void);
 int JogadorPosicaoY = 8; // Posição inicial Y
 int JogadorPosicaoX = 5; // Posição inicial X
 void comandos();
-int vivo = 1; // Estado de vida do jogador.
+int vivo; // Estado de vida do jogador.
 void exibirMapa(char mapa[y][x]);
-int aleatorezarInimigos(void);
-void atkInimigos(void);
+void inimigosSpawn(void);
+void menuDeMorte(void);
 
 // Comandos //
 void teclaA()
@@ -43,7 +43,7 @@ void teclaA()
 }
 void teclaD()
 {
-    if (JogadorPosicaoX < x - 2) // Impede o jogador de entrar na coluna 9
+    if (JogadorPosicaoX < x - 2) // Impede o jogador de entrar na coluna 10
     {
         JogadorPosicaoX++;
     }
