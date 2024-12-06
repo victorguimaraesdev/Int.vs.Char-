@@ -1,4 +1,4 @@
-# Jogo "INT vs CHAR"
+# INT vs CHAR
 
 Este é um jogo simples de console feito em C, onde o jogador interage com inimigos que aparecem aleatoriamente no mapa. O objetivo é evitar que o jogador seja atingido pelos inimigos enquanto controla um personagem usando o teclado.
 
